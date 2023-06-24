@@ -1,0 +1,52 @@
+<div class="flex flex-column">
+  <span class="text-lg mb-4"> Viaje </span>
+  <mat-form-field>
+    <mat-label> Origen </mat-label>
+    <input maxlength="3" minlength="3" type="text" matInput placeholder="Ingrese origen" [formControl]="origenCtrl"
+      oninput="this.value = this.value.toUpperCase()">
+      <mat-icon matPrefix>flight_takeoff</mat-icon>
+    <div *ngIf="origenCtrl.invalid && (origenCtrl.dirty || origenCtrl.touched)">
+      <p class="error-message">
+        <small *ngIf="origenCtrl.hasError('required')">
+          El campo es obligatorio.
+        </small>
+        <small *ngIf="origenCtrl.hasError('maxlength')">
+          El valor máximo de caracteres es 3.
+        </small>
+        <small *ngIf="origenCtrl.hasError('pattern')">
+          Solo se permiten letras.
+        </small>
+      </p>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label> Destino </mat-label>
+    <input maxlength="3" minlength="3" type="text" matInput placeholder="Ingrese destino" [formControl]="destinoCtrl"
+    oninput="this.value = this.value.toUpperCase()">
+    <mat-icon matPrefix>flight_land</mat-icon>
+    <div *ngIf="destinoCtrl.invalid && (destinoCtrl.dirty || destinoCtrl.touched)">
+      <p class="error-message">
+        <small *ngIf="destinoCtrl.hasError('required')">
+          El campo es obligatorio.
+        </small>
+        <small *ngIf="destinoCtrl.hasError('maxlength')">
+          El valor máximo de caracteres es 3.
+        </small>
+        <small *ngIf="destinoCtrl.hasError('pattern')">
+          Solo se permiten letras.
+        </small>
+      </p>
+    </div>
+
+  </mat-form-field>
+
+  <small *ngIf="origenCtrl.value && destinoCtrl.value && origenCtrl.value === destinoCtrl.value" class="error-message">
+    El origen y el destino no pueden ser iguales
+  </small>
+
+  <button mat-button mat-flat-button color="primary" [disabled]="origenCtrl.invalid || destinoCtrl.invalid || origenCtrl.value == destinoCtrl.value" (click)="getOrigen($event)">
+    <mat-icon>search</mat-icon>
+    Buscar mejor ruta
+  </button>
+</div>
