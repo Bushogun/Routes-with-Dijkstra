@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit, Pipe } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { FlightService } from '../../services/flights.service';
+//import { Flight } from '../../Classes/Flight';
 
 @Component({
   selector: 'app-layout-page',
-  templateUrl: './layout-page.component.html',
+  templateUrl: './flight-page.component.html',
   styleUrls: ['./layout-page.scss']
 })
 
@@ -27,7 +29,17 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
   ]
 );
 
-  constructor() {}
+  constructor(
+    private readonly flightService: FlightService,
+    ) { }
+
+  async getRoute(){
+    if(!this.origenCtrl.value || !this.destinoCtrl.value )
+    {return};
+    const resultado = await this.flightService.getJourney(this.origenCtrl.value , this.destinoCtrl.value);
+    console.log(resultado)
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

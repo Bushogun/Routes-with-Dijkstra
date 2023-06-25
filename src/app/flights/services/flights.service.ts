@@ -1,16 +1,39 @@
+import { JourneyService } from './journey.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Flight } from '../Classes/Flight';
-import { Journey } from '../Classes/Journey';
-import { Transport } from '../Classes/Transport';
+import { environment } from 'src/environments/environment';
+import { firstValueFrom, map } from 'rxjs';
+import { FlightResponseInterface } from '../interfaces/flightResponse.interaface';
+import { flightMapper } from '../mappers/flight.mapper';
+import { Flight } from '../classes/Flight';
 
-export class HeroesService {
+@Injectable({
+  providedIn: 'root'
+})
 
+export class FlightService {
+  flightList : any = [];
   //private baseUrl: string = environments.baseUrl;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private journeyService: JourneyService,
+    ) { }
 
-  getFlight(){}
-  getJourney(){}
+  async getFlights(){
+    if(this.flightList.length === 0){
+      this.flightList = await this.getFlightsFromApi()
+    } return this.flightList
+  }
+
+  async getJourney ( origin: string, destination: string){
+    const flights = await this.getFlights();
+    return this.journeyService.findCheapestRoute(flights, origin, destination);
+  }
+
+  async getFlightsFromApi (): Promise<Flight[]>{
+    const SERVICE_URL = `${environment.APIURL}${environment.TYPE}`;
+    return await firstValueFrom(this.http.get<FlightResponseInterface[]>(SERVICE_URL).pipe(map((res)=>flightMapper(res))));
+  }
+
   getTransport(){}
 
 }

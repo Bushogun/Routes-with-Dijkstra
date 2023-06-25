@@ -1,7 +1,7 @@
 import { FlightModule } from './flights/flights.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutPageComponent } from './flights/pages/layout-page/layout-page.component';
+import { LayoutPageComponent } from './flights/pages/layout-page/flight-page.component';
 import { Error404PageComponent } from './shared/pages/error-page/error404-page.component';
 
 

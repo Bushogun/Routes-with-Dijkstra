@@ -38,14 +38,13 @@
         </small>
       </p>
     </div>
-
   </mat-form-field>
 
   <small *ngIf="origenCtrl.value && destinoCtrl.value && origenCtrl.value === destinoCtrl.value" class="error-message">
     El origen y el destino no pueden ser iguales
   </small>
 
-  <button mat-button mat-flat-button color="primary" [disabled]="origenCtrl.invalid || destinoCtrl.invalid || origenCtrl.value == destinoCtrl.value" (click)="getOrigen($event)">
+  <button mat-button mat-flat-button color="primary" [disabled]="origenCtrl.invalid || destinoCtrl.invalid || origenCtrl.value == destinoCtrl.value" (click)="getRoute()">
     <mat-icon>search</mat-icon>
     Buscar mejor ruta
   </button>
