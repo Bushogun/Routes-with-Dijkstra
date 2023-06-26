@@ -1,4 +1,3 @@
-<mat-divider class="mb-5 mt-2"></mat-divider>
   <mat-card>
     <mat-card-header>
       <mat-card-title>Detalles</mat-card-title>
@@ -7,14 +6,15 @@
     <p style="margin: auto;"><mat-icon class="mt-4 mb-6" alt="Vuelo" title="Vuelo" style="transform: scale(4);">flight</mat-icon></p>
     <mat-card-content>
       <p>
-      Viaja desde ____ hasta ____
-      Aerolínea:__CO__
+      <strong>Ruta:</strong> {{ flight?.origin }} - {{ flight?.destination }}
       <br>
-      Vuelo número:__8010__
+      <strong>Aerolínea:</strong> {{ flight?.transport?.flightCarrier }}
+      <br>
+      <strong>Vuelo número:</strong> {{ flight?.transport?.flightNumber }}
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-flat-button class="flat-button" color="primary">Cómpralo por ____ COP</button>
+      <button mat-flat-button class="flat-button" color="primary">Cómpralo por {{ getPrice(flight?.price || 1, currencySelected?.value) }} {{ currencySelected?.code }}</button>
     </mat-card-actions>
   </mat-card>
 <!-- </div> -->

@@ -1,3 +1,4 @@
+import { Journey } from '../classes/Journey';
 import { journeyMapper } from '../mappers/journey.mapper';
 import { Flight } from './../classes/Flight';
 import { Injectable } from '@angular/core';
@@ -90,7 +91,7 @@ findCheapestRoute(flights:Flight[], origin:string, destination:string) {
   } )
 
   if(originIndex<0 || destinationIndex<0){
-    return []
+    return undefined;
   }
 
   const graph = {};

@@ -1,11 +1,10 @@
 import { CurrencyService } from './../../services/currency.service';
 import { Component, OnDestroy, OnInit, Pipe } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { FlightService } from '../../services/flights.service';
+import { Journey } from '../../classes/Journey';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-layout-page',
@@ -17,27 +16,24 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   tituloAlert: string = '';
   showCurrency: boolean = false;
+  flightsData : Journey | undefined;
 
-  origenCtrl = new FormControl<string>('',
-    [
+  origenCtrl = new FormControl<string>('',[
       Validators.required,
       Validators.maxLength(3),
       Validators.pattern('[A-Z]*'),
-    ]
-  );
+  ]);
 
-  destinoCtrl = new FormControl<string>('',
-  [
+  destinoCtrl = new FormControl<string>('',[
     Validators.required,
     Validators.maxLength(3),
     Validators.pattern('[A-Z]*'),
-  ]
-);
+  ]);
 
   constructor(
     private readonly flightService: FlightService,
     private readonly currencyService: CurrencyService,
-    ) { }
+  ){}
 
   async getRoute(){
     if(!this.origenCtrl.value || !this.destinoCtrl.value )
@@ -53,18 +49,16 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
       showConfirmButton: false,
     })
 
-
-    const resultado = await this.flightService.getJourney(this.origenCtrl.value , this.destinoCtrl.value);
+  this.flightsData = await this.flightService.getJourney(this.origenCtrl.value , this.destinoCtrl.value);
     Swal.close();
-    console.log(resultado)
+    //console.log("Journey", fligthsData)
 
-    if (Object.keys(resultado).length === 0) {
+    if (!this.flightsData) {
       Swal.fire('No se han encontrado rutas para este viaje', this.tituloAlert, 'error');
-    }
-     else {
+    } else {
       this.showCurrency = !this.showCurrency;
-       Swal.fire('Se ha encontrado la ruta.', this.tituloAlert, 'success');
-     }
+      Swal.fire('Se ha encontrado la ruta.', this.tituloAlert, 'success');
+    }
   }
 
   ngOnDestroy(): void {
@@ -85,7 +79,6 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
     //   console.log(value);
     // })
     // );
-
   }
 
   getOrigen(event: Event) {
@@ -101,5 +94,5 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
     const currency = await this.currencyService.getRates();
     console.log("Moneda", currency)
   }
-
 }
+

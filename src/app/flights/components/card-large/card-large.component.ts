@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { CurrencyStatusService } from './../../services/currency-status.service';
+import { Journey } from './../../classes/Journey';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-card-large',
   templateUrl: './card-large.component.html',
-  styleUrls: ['./card-large.component.css']
+  styleUrls: []
 })
 export class CardLargeComponent implements OnInit {
   showDetails: boolean = false;
 
-  constructor() {
+  @Input()
+  journey : Journey | undefined;
 
+  currencySelected: any;
+
+  constructor(
+    private currencyStatusService: CurrencyStatusService,
+  ) {
+    this.currencyStatusService.$currencyStatus.subscribe((res)=>this.currencySelected = res);
    }
 
   ngOnInit() {
@@ -17,6 +26,13 @@ export class CardLargeComponent implements OnInit {
 
   toggleDetalles() {
     this.showDetails = !this.showDetails;
+  }
+
+  getPrice(price:number, rate:number){
+    if(price && rate){
+      return price*rate;
+    }
+    return 0;
   }
 
 }
