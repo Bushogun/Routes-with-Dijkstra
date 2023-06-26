@@ -1,5 +1,5 @@
-import { CurrencyStatusService } from './../../services/currency-status.service';
-import { Journey } from './../../classes/Journey';
+import { CurrencyStatusService } from '../services/currency-status.service'
+import { Journey } from '../classes/Journey'
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -18,7 +18,7 @@ export class CardLargeComponent implements OnInit {
   constructor(
     private currencyStatusService: CurrencyStatusService,
   ) {
-    this.currencyStatusService.$currencyStatus.subscribe((res)=>this.currencySelected = res);
+    this.currencyStatusService.$currencyStatus.subscribe((res : any)=>this.currencySelected = res);
    }
 
   ngOnInit() {
