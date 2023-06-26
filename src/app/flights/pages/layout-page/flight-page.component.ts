@@ -1,9 +1,11 @@
+import { CurrencyService } from './../../services/currency.service';
 import { Component, OnDestroy, OnInit, Pipe } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { FlightService } from '../../services/flights.service';
-//import { Flight } from '../../Classes/Flight';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-layout-page',
@@ -13,6 +15,9 @@ import { FlightService } from '../../services/flights.service';
 
 export class LayoutPageComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
+  tituloAlert: string = '';
+  showCurrency: boolean = false;
+
   origenCtrl = new FormControl<string>('',
     [
       Validators.required,
@@ -31,13 +36,35 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly flightService: FlightService,
+    private readonly currencyService: CurrencyService,
     ) { }
 
   async getRoute(){
     if(!this.origenCtrl.value || !this.destinoCtrl.value )
     {return};
+
+    Swal.fire({
+      title: 'Cargando',
+      html: 'Buscando Rutas',
+      timer: 3000,
+      timerProgressBar: true,
+      showCloseButton: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+    })
+
+
     const resultado = await this.flightService.getJourney(this.origenCtrl.value , this.destinoCtrl.value);
+    Swal.close();
     console.log(resultado)
+
+    if (Object.keys(resultado).length === 0) {
+      Swal.fire('No se han encontrado rutas para este viaje', this.tituloAlert, 'error');
+    }
+     else {
+      this.showCurrency = !this.showCurrency;
+       Swal.fire('Se ha encontrado la ruta.', this.tituloAlert, 'success');
+     }
   }
 
   ngOnDestroy(): void {
@@ -45,18 +72,20 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription.add(
-    this.origenCtrl.valueChanges
-      .pipe(debounceTime(350))
-      .subscribe(value => {
-        console.log(value);
-      })
-    );
-    this.subscription.add(
-    this.destinoCtrl.valueChanges.subscribe(value => {
-      console.log(value);
-    })
-    );
+    this.getCurrency();
+    // this.subscription.add(
+    // this.origenCtrl.valueChanges
+    //   .pipe(debounceTime(350))
+    //   .subscribe(value => {
+    //     console.log(value);
+    //   })
+    // );
+    // this.subscription.add(
+    // this.destinoCtrl.valueChanges.subscribe(value => {
+    //   console.log(value);
+    // })
+    // );
+
   }
 
   getOrigen(event: Event) {
@@ -67,4 +96,10 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
     event.preventDefault();
     console.log(this.destinoCtrl.value);
   }
+
+  async getCurrency(){
+    const currency = await this.currencyService.getRates();
+    console.log("Moneda", currency)
+  }
+
 }

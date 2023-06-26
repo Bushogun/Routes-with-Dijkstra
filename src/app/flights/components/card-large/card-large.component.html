@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Vuelo desde ____  hasta ____</mat-card-title>
+    <mat-card-subtitle>NewShore</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions style="display: flex; gap: 6px;">
+    <button mat-flat-button color="primary">Cómpralo por ____ COP</button>
+    <button mat-flat-button color="primary" (click)="toggleDetalles()">Ver detalles</button>
+  </mat-card-actions>
+</mat-card>
+
+  <mat-grid-list cols="2" rowHeight="1:1.2" *ngIf="showDetails">
+    <mat-grid-tile><app-card></app-card></mat-grid-tile>
+    <mat-grid-tile><app-card></app-card></mat-grid-tile>
+  </mat-grid-list>

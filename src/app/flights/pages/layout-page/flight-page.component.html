@@ -1,5 +1,6 @@
+
 <div class="flex flex-column">
-  <span class="text-lg mb-4"> Viaje </span>
+  <span class="mb-4 title-viaje" style="font-size: 40px; text-align: center;"><strong>Viaje</strong></span>
   <mat-form-field>
     <mat-label> Origen </mat-label>
     <input maxlength="3" minlength="3" type="text" matInput placeholder="Ingrese origen" [formControl]="origenCtrl"
@@ -44,8 +45,18 @@
     El origen y el destino no pueden ser iguales
   </small>
 
-  <button mat-button mat-flat-button color="primary" [disabled]="origenCtrl.invalid || destinoCtrl.invalid || origenCtrl.value == destinoCtrl.value" (click)="getRoute()">
+  <button mat-button mat-flat-button color="primary" class="flat-button" [disabled]="origenCtrl.invalid || destinoCtrl.invalid || origenCtrl.value == destinoCtrl.value" (click)="getRoute()">
     <mat-icon>search</mat-icon>
     Buscar mejor ruta
   </button>
 </div>
+
+<div *ngIf="showCurrency">
+  <mat-divider class="mb-5 mt-5"></mat-divider>
+
+  <app-currency-select></app-currency-select>
+
+  <app-card-large ></app-card-large>
+
+</div>
+

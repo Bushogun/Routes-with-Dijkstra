@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutPageComponent } from './flights/pages/layout-page/flight-page.component';
 import { Error404PageComponent } from './shared/pages/error-page/error404-page.component';
 
-
 const routes: Routes = [
   {
     path: 'flights',

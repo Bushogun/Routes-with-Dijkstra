@@ -13,10 +13,14 @@ import { Flight } from '../classes/Flight';
 
 export class FlightService {
   flightList : any = [];
-  //private baseUrl: string = environments.baseUrl;
   constructor(private http: HttpClient,
-              private journeyService: JourneyService,
-    ) { }
+              private journeyService: JourneyService
+  ){}
+
+  async getFlightsFromApi (): Promise<Flight[]>{
+    const SERVICE_URL = `${environment.APIURL}${environment.TYPE}`;
+    return await firstValueFrom(this.http.get<FlightResponseInterface[]>(SERVICE_URL).pipe(map((res)=>flightMapper(res))));
+  }
 
   async getFlights(){
     if(this.flightList.length === 0){
@@ -28,12 +32,4 @@ export class FlightService {
     const flights = await this.getFlights();
     return this.journeyService.findCheapestRoute(flights, origin, destination);
   }
-
-  async getFlightsFromApi (): Promise<Flight[]>{
-    const SERVICE_URL = `${environment.APIURL}${environment.TYPE}`;
-    return await firstValueFrom(this.http.get<FlightResponseInterface[]>(SERVICE_URL).pipe(map((res)=>flightMapper(res))));
-  }
-
-  getTransport(){}
-
 }
