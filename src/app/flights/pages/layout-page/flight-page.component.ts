@@ -83,16 +83,16 @@ export class LayoutPageComponent implements OnInit, OnDestroy {
 
   getOrigen(event: Event) {
     event.preventDefault();
-    console.log(this.origenCtrl.value);
+    //console.log(this.origenCtrl.value);
   }
   getDestino(event: Event) {
     event.preventDefault();
-    console.log(this.destinoCtrl.value);
+    //console.log(this.destinoCtrl.value);
   }
 
   async getCurrency(){
     const currency = await this.currencyService.getRates();
-    console.log("Moneda", currency)
+    //console.log("Moneda", currency)
   }
 }
 

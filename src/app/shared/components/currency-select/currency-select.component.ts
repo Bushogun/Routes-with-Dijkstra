@@ -25,12 +25,12 @@ export class CurrencySelectComponent implements OnInit {
     const currency = await this.currencyService.getRates();
     this.valueCurrency = Object.values(currency)
     this.selectedCurrency = this.valueCurrency[3];
-    console.log(this.valueCurrency)
+    //console.log(this.valueCurrency)
   }
 
   selectCurrency(currency:any){
     this.currencyStatusService.setCurrency(currency);
-    console.log('currency',currency)
+    //console.log('currency',currency)
   }
 
 }

@@ -57,7 +57,7 @@ dijkstra(graph:any, start:any, end:any) {
 
     for (const neighbor in graph[current]) {
       const distance = (distances as any)[current] + graph[current][neighbor];
-      console.log ('neighbor = ' + neighbor);
+      //console.log ('neighbor = ' + neighbor);
       if (distance < (distances as any)[neighbor]) {
         (distances as any)[neighbor] = distance;
         (previous as any)[neighbor] = current;
