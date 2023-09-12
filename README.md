@@ -1,4 +1,4 @@
-# newshoreair
+# Routes With Dijkstra
 1. Go to the link https://github.com/Bushogun/newshoreair/archive/refs/heads/master.zip
 2. Right click -> Extract here
 3. Open folder in Visual Studio Code
